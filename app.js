@@ -6,9 +6,11 @@ var logger = require('morgan');
 const cors = require("cors");
 const port = 5001;
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var housingRouter = require('./routes/housing');
+var indexRoutes = require('./routes/indexRoutes');
+var usersRoutes = require('./routes/usersRoutes');
+var housingRoutes = require('./routes/housingRoutes');
+var requestsRoutes = require('./routes/requestsRoutes');
+
 
 var app = express();
 
@@ -35,9 +37,10 @@ async function main() {
 main().catch(err => console.log(err));
 
 // Load routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/housing', housingRouter);
+app.use('/', indexRoutes);
+app.use('/users', usersRoutes);
+app.use('/api/housing', housingRoutes);
+app.use('/api/requests', requestsRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

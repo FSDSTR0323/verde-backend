@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const housingSchema = new Schema({
+const requestsSchema = new Schema({
     realState: { 
       type: mongoose.Schema.Types.ObjectID,
       ref: "realState"
@@ -16,14 +16,13 @@ const housingSchema = new Schema({
 
     type: { 
       type: String,
-      required: true,
       enum: ["apartment", "penthouse", "duplex", "house", "chalet", "other"]
       },
     
     transaction: {
       type: String,
       required: true,
-      enum: ["sale", "rent", "vacation_rentals"]
+      enum: ["purchase", "rent", "vacation_rentals"]
       },
       
     country: {
@@ -39,54 +38,38 @@ const housingSchema = new Schema({
 
     province: { // external API
       type: String,
-      required: true,
       },  
     
     municipality: { // external API
       type: String,
-      required: true,
       },
 
     population: { // external API
       type: String,
-      required: true,
       },
 
     neighborhood: { // external API
       type: String,
-      required: true,
       },
 
-    zipCode: { // external API
+    minM2: {
       type: Number,
-      },
+    },
 
-    squareMeters: {
+    maxM2: {
       type: Number,
-      required: true,
-      },
+    },
 
     currency: {
       type: String,
-      required: true,
       enum: ["EUR", "DOL"]
       },
 
-    price: {
+    minPrice: {
       type: Number,
-      required: true,
       },
 
-    roadType: {
-      type: mongoose.Schema.Types.ObjectID,
-      ref: "roadTypes",
-      },
-
-    roadName: {
-      type: String,
-      },
-    
-    houseNumber: {
+    maxPrice: {
       type: Number,
       },
 
@@ -94,18 +77,6 @@ const housingSchema = new Schema({
       type: String,
       enum: ["top_floor", "intermediate_floor", "ground_floor"], 
       },
-    
-    floorNumber: {
-      type: Number,
-      },
-
-    door: {
-      type: String,
-      },
-
-    stair: {
-      type: String,
-      },      
     
     facing: {
       type: String,
@@ -117,7 +88,7 @@ const housingSchema = new Schema({
       enum: ["new", "up_to_5 years", "6_to_10 years", "11_to_20 years", "more_than_20 years"]
       },
 
-    description: {
+    comments: {
       type: String,
       },
 
@@ -206,4 +177,4 @@ const housingSchema = new Schema({
   timestamps:true}
   );
   
-  module.exports = mongoose.model("housing", housingSchema);
+  module.exports = mongoose.model("requests", requestsSchema);
