@@ -36,10 +36,48 @@ newAgent
     });
 };
 
+const getAgent = (req,res) => {
+    if (req.params.agentId) {
+        Agent.findById(req.params.agentId)
+            .then ((agent) => {
+                if (agent === null ) {
+                    res.status(400).send({ msg: 'No se ha encontrado el Agente/Corredor '});
+                } else {
+                    res.status(200).send(agent);
+                }
+            })
+            .catch ((error) => {
+                console.log(error);
+                switch (error.name) {
+                    case 'CastError':
+                        res.status(400).send('Formato de ID de Agente inválido');
+                        break;
+                    default:
+                        res.status(400).send(error);
+                }
+            });
+    } else {
+        let filter = {};
 
+        if (req.query.status) {
+            filter.status = req.query.status;
+        }
+
+        console.log(req.query.status, filter);
+        Agent.find(filter)
+            .then ((agents) => {
+                if (agents.length === 0) {
+                    res.status(404).send({msg: 'No se han encontrado Agentes' }) 
+                } else {
+                    res.status(200).send(agents);
+                }
+            })
+            .catch ((error)=> res.status(400).send(error));
+    }
+};
 
 module.exports = {
-    //getAgent,
+    getAgent,
     addAgent,
     //deleteAgent,
     //updateAgent,
