@@ -7,15 +7,15 @@ const agentSchema = new Schema({
     required: true,
     unique: true
   },
-  identificacion_corredor: {
+  identification_agent: {
     type: String,
     required: true
   },
-  Name: {
+  name: {
     type: String,
     required: true
   },
-  Surname: {
+  surname: {
     type: String,
     default: null
   },
@@ -27,7 +27,7 @@ const agentSchema = new Schema({
     type: String,
     default: null
   },
-  Province: {
+  province: {
     type: String,
     default: null
   },
@@ -36,29 +36,36 @@ const agentSchema = new Schema({
     required: true,
     min: 0
   },
-  Telephone: {
+  telephone: {
     type: Number,
     min: 0,
     default: null
   },
-  Email: {
+  email: {
     type: String,
     default: null,
     match: /^\S+@\S+\.\S+$/
   },
-  Date_Register: {
+  date_register: {
     type: Date,
     default: null
   },
-  Observaciones: {
+  observations: {
     type: String,
     default: ''
   },
   id_realstate: {
     type: Number,
     required: true
-  }
-});
+  },
+  deleteAt: {
+    type: Date
+  },
+},  
+
+{
+  timestamps:true }
+);
 
 const Agent = mongoose.model('Agent', agentSchema);
 
