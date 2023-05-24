@@ -12,6 +12,6 @@ const schema = new Schema({
   }
 });
 
-const MyModel = mongoose.model('Agentsrealstate', schema);
+const AgentsRealState = mongoose.model('Agentsrealstate', schema);
 
 module.exports = AgentsRealState;
