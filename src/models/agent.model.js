@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const secret = process.env.JWT_SECRET;
 const Schema = mongoose.Schema;
 
 const agentSchema = new Schema({
@@ -46,6 +49,10 @@ const agentSchema = new Schema({
     default: null,
     match: /^\S+@\S+\.\S+$/
   },
+  password: {
+    type: String,
+    required: true
+  },
   date_register: {
     type: Date,
     default: null
@@ -61,11 +68,29 @@ const agentSchema = new Schema({
   deleteAt: {
     type: Date
   },
-},  
+},
 
 {
   timestamps:true }
 );
+
+UserSchema.methods.generateJWT = function() {
+  const today = new Date();
+  const expirationDate = new Date();
+
+  expirationDate.setDate(today.getDate() + 60);
+
+  let payload = {
+    id: this._id,
+    name: this.name,
+    email: this.email,
+    algo:'Hola desde el modelo de USER!!!' 
+  }
+  // * This method is from the json-web-token library who is in charge to generate the JWT
+  return jwt.sign(payload, secret, {
+    expiresIn: parseInt(expirationDate.getTime() / 1000, 10)
+  })
+};
 
 const Agent = mongoose.model('Agent', agentSchema);
 
