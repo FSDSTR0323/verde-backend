@@ -5,8 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require("cors");
 
+// Libreria para acceder a ficheros estaticos
+const path = require ("path"); 
+
 
 const port = process.env.PORT || 3005
+
+// Cargar conf Rutas
 
 var userRoutes = require('./routes/userRoutes'); 
 var housingRoutes = require('./routes/housingRoutes');
@@ -14,6 +19,7 @@ var requestRoutes = require('./routes/requestRoutes');
 var ratingRoutes = require('./routes/ratingRoutes');
 var realEstateRoutes = require('./routes/realEstateRoutes');
 var forgotEmailRoutes = require('./routes/forgotEmailRoutes');
+
 
 
 var app = express();
@@ -41,12 +47,18 @@ require ('./mongo');
 
 
 // Load routes
+app.use("/", express.static('dist', {redirect: false}));
 app.use('/user', userRoutes);
 app.use('/api/housing', housingRoutes);
 app.use('/api/request', requestRoutes);
 app.use('/api/realEstate', realEstateRoutes);
 app.use('/api/sendEmail', forgotEmailRoutes);
 app.use('/api/rating', ratingRoutes);
+
+//Cargar el index del frontend
+app.get("*", (req, res, next) => {
+  return res.sendFile(path.resolve("dist/index.html"));
+});
 
 
 // catch 404 and forward to error handler
