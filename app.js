@@ -6,7 +6,7 @@ var logger = require('morgan');
 const cors = require("cors");
 
 // Libreria para acceder a ficheros estaticos
-const path = require ("path"); 
+//const path = require ("path"); 
 
 
 const port = process.env.PORT || 3005
